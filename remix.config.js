@@ -3,4 +3,5 @@ module.exports = {
   ignoredRouteFiles: ['**/.*'],
   tailwind: true,
   serverModuleFormat: 'cjs',
+  browserNodeBuiltinsPolyfill: { modules: { crypto: true } }
 }

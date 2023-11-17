@@ -21,7 +21,7 @@ export const action: ActionFunction = async ({request}) => {
   })
 }
 
-const PREVIEW_TYPES = [`record`, `home`]
+const PREVIEW_TYPES = [`record`, `home`, `product`, `merch`]
 
 // A `GET` request to this route will enter preview mode
 // It will check if the "token" document in the dataset
@@ -67,7 +67,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
   let validSlug = `/`
 
   // Records have slugs, home page does not
-  if (type === `record`) {
+  if (type === `product`) {
     // Check the URL has a valid ?slug param)
     const slug = requestUrl.searchParams.get('slug')
 
@@ -76,16 +76,16 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
     }
 
     // Confirm the passed-in slug actually exists
-    const recordSlug = await previewClient.fetch(
-      groq`*[_type == "record" && slug.current == $slug][0].slug.current`,
+    const productSlug = await previewClient.fetch(
+      groq`*[_type == "product" && slug.current == $slug][0].slug.current`,
       {slug}
     )
 
-    if (!recordSlug) {
+    if (!productSlug) {
       return new Response('Invalid slug', {status: 401})
     }
 
-    validSlug = `/${recordSlug}`
+    validSlug = `/${productSlug}`
   }
 
   // Write viewer token to session so that every route can authenticate by it

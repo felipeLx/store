@@ -74,9 +74,9 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
     token: preview ? token : null,
     themePreference,
     ENV: {
-      SANITY_PUBLIC_PROJECT_ID: process.env.SANITY_PUBLIC_PROJECT_ID,
-      SANITY_PUBLIC_DATASET: process.env.SANITY_PUBLIC_DATASET,
-      SANITY_PUBLIC_API_VERSION: process.env.SANITY_PUBLIC_API_VERSION,
+      SANITY_PROJECT_ID: process.env.SANITY_PROJECT_ID,
+      SANITY_DATASET: process.env.SANITY_DATASET,
+      SANITY_PUBLIC_API_VERSION: process.env.SANITY_API_VERSION,
     },
   })
 }
@@ -88,7 +88,7 @@ export default function App() {
   const bodyClassNames = getBodyClassNames(themePreference)
 
   return (
-    <html lang="en">
+    <html lang="pt">
       <head>
         <Meta />
         <meta charSet="utf-8" />

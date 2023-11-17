@@ -3,19 +3,19 @@ import type {
   LoaderFunctionArgs,
   MetaFunction,
 } from '@remix-run/node'
-import {json} from '@remix-run/node'
-import {useLoaderData} from '@remix-run/react'
+import { useLoaderData } from '@remix-run/react'
+// Link,  import {useLoaderData} from '@remix-run/react'
 import LiveQuery from '@sanity/preview-kit/live-query'
-import groq from 'groq'
 
-import {Records} from '~/components/Records'
-import {Title} from '~/components/Title'
-import {getPreviewToken} from '~/lib/getPreviewToken'
+// import {Records} from '~/components/Records'
+// import {Title} from '~/components/Title'
 import {useRootLoaderData} from '~/lib/useRootLoaderData'
 import type {Loader as RootLoader} from '~/root'
-import {getClient} from '~/sanity/client'
 import tailwind from '~/tailwind.css'
-import {recordStubsZ} from '~/types/record'
+import { merchQuery } from "~/lib/sanity.server";
+import { client } from "~/sanity/client";
+// import Cart from '~/components/Cart'
+import { Products } from "~/components/Products";
 
 export const links: LinksFunction = () => {
   return [{rel: 'stylesheet', href: tailwind}]
@@ -35,33 +35,12 @@ export const meta: MetaFunction<
 }
 
 export const loader = async ({request}: LoaderFunctionArgs) => {
-  const {preview} = await getPreviewToken(request)
-  const query = groq`*[_type == "record"][0...12]|order(title asc){
-    _id,
-    _type,
-    title,
-    "slug": slug.current,
-    "artist": artist->title,
-    image
-  }`
-
-  const records = await getClient(preview)
-    .fetch(query)
-    .then((res) => (res ? recordStubsZ.parse(res) : null))
-
-  if (!records) {
-    throw new Response('Not found', {status: 404})
-  }
-
-  return json({
-    records,
-    query: preview ? query : ``,
-    params: preview ? {} : {},
-  })
+  const products = await client.fetch(merchQuery);
+    return {products};
 }
 
 export default function Index() {
-  const {records = [], query, params} = useLoaderData<typeof loader>()
+  const data = useLoaderData<typeof loader>()
   const rootData = useRootLoaderData()
 
   return (
@@ -72,15 +51,20 @@ export default function Index() {
         params={rootData.params}
         initialData={rootData.home}
       >
-        <Title data={rootData.home} />
+        {/*<Title data={rootData.home} />*/}
       </LiveQuery>
-
-      {/* <PreviewWrapper
+      <div className='flex w-full justify-center items-center'>
+        <Products products={data.products} />
+      </div>
+      {/* <CartSummary />
+      <Cart>
+      </Cart> */}
+      {/*<PreviewWrapper
         data={records}
         render={(data) => <Records records={data ?? []} />}
         query={query}
         params={params}
-      /> */}
+      />*/}
     </div>
   )
 }

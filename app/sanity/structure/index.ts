@@ -1,8 +1,7 @@
-import {Disc, Home, Tags, Users} from 'lucide-react'
+import {Disc, Home, Tags, Users, ShoppingBag} from 'lucide-react'
 import type {SanityDocument} from 'sanity'
 import type {DefaultDocumentNodeResolver, StructureResolver} from 'sanity/desk'
 import Iframe from 'sanity-plugin-iframe-pane'
-
 import OGPreview from '~/sanity/components/OGPreview'
 import {projectDetails} from '~/sanity/projectDetails'
 import type {SanityDocumentWithSlug} from '~/sanity/structure/resolvePreviewUrl'
@@ -23,6 +22,8 @@ export const structure: StructureResolver = (S) =>
         .title('Home'),
       S.divider(),
       // Document lists
+      S.documentTypeListItem('merch').title('Produtos').icon(ShoppingBag),
+      S.documentTypeListItem('product').title('Products').icon(ShoppingBag),
       S.documentTypeListItem('record').title('Records').icon(Disc),
       S.documentTypeListItem('artist').title('Artists').icon(Users),
       S.divider(),
@@ -54,6 +55,10 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (
     case `home`:
       return S.document().views([S.view.form(), previewView])
     case `record`:
+      return S.document().views([S.view.form(), previewView, OGPreviewView])
+    case `product`:
+      return S.document().views([S.view.form(), previewView, OGPreviewView])
+    case 'merch':
       return S.document().views([S.view.form(), previewView, OGPreviewView])
     default:
       return S.document().views([S.view.form()])
