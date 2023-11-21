@@ -3,18 +3,14 @@ import type {
   LoaderFunctionArgs,
   MetaFunction,
 } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
-// Link,  import {useLoaderData} from '@remix-run/react'
+import { Outlet, useLoaderData } from '@remix-run/react'
 import LiveQuery from '@sanity/preview-kit/live-query'
 
-// import {Records} from '~/components/Records'
-// import {Title} from '~/components/Title'
+import {Title} from '~/components/Title'
 import {useRootLoaderData} from '~/lib/useRootLoaderData'
 import type {Loader as RootLoader} from '~/root'
 import tailwind from '~/tailwind.css'
-import { merchQuery } from "~/lib/sanity.server";
-import { client } from "~/sanity/client";
-// import Cart from '~/components/Cart'
+import { merchQuery, client } from "~/lib/sanity.server";
 import { Products } from "~/components/Products";
 
 export const links: LinksFunction = () => {
@@ -44,27 +40,21 @@ export default function Index() {
   const rootData = useRootLoaderData()
 
   return (
-    <div className="grid grid-cols-1 gap-6 md:gap-12">
-      <LiveQuery
-        enabled={Boolean(rootData.preview)}
-        query={rootData.query}
-        params={rootData.params}
-        initialData={rootData.home}
-      >
-        {/*<Title data={rootData.home} />*/}
-      </LiveQuery>
-      <div className='flex w-full justify-center items-center'>
-        <Products products={data.products} />
+    <>
+      <div className="grid grid-cols-1 gap-6 md:gap-12">
+        <LiveQuery
+          enabled={Boolean(rootData.preview)}
+          query={rootData.query}
+          params={rootData.params}
+          initialData={rootData.home}
+        >
+        <Title data={rootData.home} />
+        </LiveQuery>
+        <div className='flex w-full justify-center items-center'>
+          <Products products={data.products} />
+          <Outlet />
+        </div>
       </div>
-      {/* <CartSummary />
-      <Cart>
-      </Cart> */}
-      {/*<PreviewWrapper
-        data={records}
-        render={(data) => <Records records={data ?? []} />}
-        query={query}
-        params={params}
-      />*/}
-    </div>
+    </>
   )
 }

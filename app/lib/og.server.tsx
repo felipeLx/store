@@ -1,11 +1,12 @@
 import {Resvg} from '@resvg/resvg-js'
 import type {SanityDocument} from '@sanity/client'
-import urlBuilder from '@sanity/image-url'
+// import urlBuilder from '@sanity/image-url'
 import type {SatoriOptions} from 'satori'
 import satori from 'satori'
 
 import {OG_IMAGE_HEIGHT, OG_IMAGE_WIDTH} from '~/routes/_resources+/resource.og'
-import {projectDetails} from '~/sanity/projectDetails'
+// import {projectDetails} from '~/sanity/projectDetails'
+import { urlFor } from './misc'
 
 // Load the font from the "public" directory
 const fontSans = (baseUrl: string) =>
@@ -17,7 +18,7 @@ export async function generatePngFromDocument(
   doc: SanityDocument,
   origin: string
 ) {
-  const {title, artist, image} = doc
+  const {image} = doc
 
   // Prepare font data and settings for Satori
   const fontSansData = await fontSans(origin)
@@ -51,19 +52,15 @@ export async function generatePngFromDocument(
     >
       <div
         style={{
-          width: image?.asset?._ref ? options.width - 500 : options.width,
+          width: image ? options.width - 500 : options.width,
           display: 'flex',
           flexDirection: 'column',
           padding: 50,
           gap: 25,
         }}
       >
-        <div style={{fontSize: 100}}>{title}</div>
-        {artist?.title ? (
-          <div style={{fontSize: 40}}>{artist.title}</div>
-        ) : null}
       </div>
-      {image?.asset?._ref ? (
+      {image ? (
         <div
           style={{
             width: 500,
@@ -74,9 +71,7 @@ export async function generatePngFromDocument(
         >
           <img
             alt=""
-            src={urlBuilder(projectDetails())
-              // @ts-ignore
-              .image(image.asset._ref)
+            src={urlFor(image)
               .height(800)
               .width(800)
               .fit('max')

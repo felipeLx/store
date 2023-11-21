@@ -5,6 +5,16 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { extendTailwindMerge } from 'tailwind-merge'
 import { extendedTheme } from './extended-theme'
 
+import { client } from './sanity.server'
+import { type SanityImageSource } from "@sanity/asset-utils";
+import imageUrlBuilder from "@sanity/image-url";
+
+const builder = imageUrlBuilder(client);
+
+export function urlFor(source: SanityImageSource) {
+  return builder.image(source);
+}
+
 /*
 export function getUserImgSrc(imageId?: string | null) {
 	return imageId ? `/resources/user-images/${imageId}` : '/img/user.png'
@@ -45,6 +55,7 @@ function formatColors() {
 
 
 const customTwMerge = extendTailwindMerge({
+	// @ts-expect-error
 	theme: {
 		colors: formatColors(),
 		borderRadius: Object.keys(extendedTheme.borderRadius),

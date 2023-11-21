@@ -1,18 +1,18 @@
-import { useShoppingCart, formatCurrencyString } from "use-shopping-cart";
+import { formatCurrencyString } from "use-shopping-cart";
 import {Link} from '@remix-run/react'
-import React from 'react'
 
 import {ProductCover} from '~/components/ProductCover'
 import type {ProductDocument} from '~/types/product'
 import { Button } from "./ui/button";
+import { useLove } from "~/lib/useCart";
 
 type ProductsProps = {
   products: ProductDocument[]
 }
 
 export function Products(props: ProductsProps) {
-  const { addItem, removeItem } = useShoppingCart();
-  
+  const addToCart = useLove((state) => state.addToCart);
+  const removeFromCart = useLove((state) => state.removeFromCart);
   const {products = []} = props
   return (
     <>
@@ -33,15 +33,16 @@ export function Products(props: ProductsProps) {
                 {product.name} / {formatCurrencyString({
                   currency: "BRL",
                   value: product.price,
-                })}
+                  language: "pt-BR",
+                }).replace('.',',')}
                 </Button>
                 {/* Makes this entire block clickable 
                 <span className="absolute inset-0" />*/}
               </Link>
           </div>
           <div className="relative mt-4 items-center justify-center text-center flex flex-row gap-4">
-            <Button size='sm' variant='outline' onClick={() => addItem(product)}>Colocar no Carrinho</Button>
-            <Button size='sm' variant='outline' onClick={() => removeItem(product.id)}>Tirar do Carrinho</Button>
+            <Button size='sm' variant='outline' onClick={() => addToCart(product)}>Colocar no Carrinho</Button>
+            <Button size='sm' variant='outline' onClick={() => removeFromCart(product)}>Tirar do Carrinho</Button>
           </div>
         </li>
       )}
