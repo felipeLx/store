@@ -1,31 +1,21 @@
-import {type PropsWithChildren, Suspense} from 'react'
-
-import {useRootLoaderData} from '~/lib/useRootLoaderData'
+import {type PropsWithChildren} from 'react'
 
 import {Footer} from './Footer'
+import {Header} from './Header'
+import {Title} from './Title'
+import type {LogoProps} from '~/types/home'
+import ShoppingCartModal from './shoppingCartModal'
 
-import NavBar from "~/components/navBar"
-import ShoppingCartModal from "./shoppingCartModal"
-import {PreviewProvider} from './PreviewProvider'
-
-export function Layout(props: PropsWithChildren) {
-  const rootData = useRootLoaderData()
-  const children = (
+export function Layout({home, children}: PropsWithChildren<LogoProps>) {
+  return (
     <>
-      <div className="container mx-auto p-4 lg:p-12">
-        <NavBar />
-        {props.children}
-        <ShoppingCartModal />
+      <Header />
+      <div className="container mx-auto p-4 lg:p-12 grid grid-cols-1 gap-4 lg:gap-12">
+        {home?.title ? <Title data={home} /> : null}
+        {children}
       </div>
-      <Footer />
+      <Footer home={home} />
+      <ShoppingCartModal />
     </>
-  )
-
-  return rootData.preview ? (
-    <Suspense fallback={children}>
-      <PreviewProvider>{children}</PreviewProvider>
-    </Suspense>
-  ) : (
-    children
   )
 }

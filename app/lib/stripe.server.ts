@@ -1,14 +1,45 @@
+import { json } from "@remix-run/node";
 import { loadStripe } from "@stripe/stripe-js";
 import Stripe from "stripe";
 import { type ProductDocument } from "~/types/product";
+import { getEnv } from "./env.server";
 
 let _stripe: any;
 
 export async function getStripe() {
+  let apiKey = getEnv().STRIPE_PUBLIC_KEY
   if (!_stripe) {
-    _stripe = await loadStripe(window.ENV.STRIPE_PUBLIC_KEY);
+    _stripe = await loadStripe(apiKey);
   }
   return _stripe;
+}
+
+const calculateOrderAmount = (items: any) => {
+  console.log('items calculateOrderAmount', json(items)) 
+  // Replace this constant with a calculation of the order's amount
+  // Calculate the order total on the server to prevent
+  // people from directly manipulating the amount on the client
+  return 1400;
+};
+
+export async function stripeHandler(items: ProductDocument) {
+  console.log('items stripeHandler', json(items))
+  let apiKey = getEnv().STRIPE_API_KEY
+  const stripe = new Stripe(apiKey, {
+    // @ts-ignore
+    apiVersion: '2023-10-16',
+    typescript: true,
+  });
+  // Create a PaymentIntent with the order amount and currency
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: calculateOrderAmount(items),
+    currency: "brl",
+    // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+    automatic_payment_methods: {
+      enabled: true,
+    },
+  });
+  return {clientSecret: paymentIntent.client_secret}
 }
 
 export async function redirectToStripeCheckout(
@@ -67,9 +98,10 @@ export const getStripeSession = async (
   items: string,
   domainUrl: string
 ): Promise<string> => {
-  const stripe = new Stripe(process.env.STRIPE_API_KEY as string, {
+  let stripeApiKey = getEnv().STRIPE_API_KEY
+  const stripe = new Stripe(stripeApiKey, {
     // @ts-ignore
-    apiVersion: "2023-11-13",
+    apiVersion: '2023-10-16',
     typescript: true,
   });
 
@@ -89,7 +121,7 @@ export const getStripeSession = async (
 
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
-    payment_method_types: ["card"], // , "giropay", "pix"
+    payment_method_types: ["card", "pix"], // , "giropay", "pix"
     line_items: lineItems,
     success_url: `${domainUrl}/payment/success`,
     cancel_url: `${domainUrl}/payment/cancelled`,

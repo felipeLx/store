@@ -12,7 +12,6 @@ type ProductsProps = {
 
 export function Products(props: ProductsProps) {
   const addToCart = useLove((state) => state.addToCart);
-  const removeFromCart = useLove((state) => state.removeFromCart);
   const {products = []} = props
   return (
     <>
@@ -21,7 +20,7 @@ export function Products(props: ProductsProps) {
         <li key={product.sku} className="group relative flex flex-col">
           <div className="relative overflow-hidden transition-all duration-200 ease-in-out group-hover:scale-105 group-hover:opacity-90">
             <div className="absolute z-0 h-36 w-[100%] translate-x-20 translate-y-20 -rotate-45 bg-gradient-to-b from-white to-transparent opacity-25 mix-blend-overlay transition-transform duration-500 ease-in-out group-hover:translate-x-10 group-hover:translate-y-10 group-hover:opacity-75" />
-            <ProductCover image={product.image} name={product.name} />
+            <ProductCover image={product.image} />
           </div>
           <div className="flex flex-col text-center">
             <Link
@@ -42,7 +41,6 @@ export function Products(props: ProductsProps) {
           </div>
           <div className="relative mt-4 items-center justify-center text-center flex flex-row gap-4">
             <Button size='sm' variant='outline' onClick={() => addToCart(product)}>Colocar no Carrinho</Button>
-            <Button size='sm' variant='outline' onClick={() => removeFromCart(product)}>Tirar do Carrinho</Button>
           </div>
         </li>
       )}

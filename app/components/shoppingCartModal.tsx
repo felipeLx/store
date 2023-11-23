@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Form, Link } from "@remix-run/react";
 import React, { Fragment } from "react";
-import { urlFor } from "~/lib/misc";
+import urlFor from "~/sanity/urlFor";
 import { useLove } from "~/lib/useCart";
 
 export default function ShoppingCartModal() {
@@ -44,10 +44,7 @@ export default function ShoppingCartModal() {
                         <div className="flex flex-col items-start justify-between pt-13">
                           <Link to="/" className="w-full">
                             <h1 className="text-3xl font-semibold">
-                              Dark
-                              <span className="text-purple-300">Violet</span>.ai
-                              {""}
-                              <span className="text-cyan-300 ml-2">Bazaar</span>
+                              Artesanatos da Zizi
                             </h1>
                           </Link>
                           <Dialog.Title className="text-xl font-medium text-zinc-100">
@@ -104,7 +101,7 @@ export default function ShoppingCartModal() {
                                     {" "}
                                     <div className="h-24 w-24 object-cover object-center">
                                       <img
-                                        src={urlFor(product.image[0]).url()}
+                                        src={urlFor(product.image).url()}
                                         alt=""
                                         className="rounded-md"
                                       />
@@ -151,7 +148,7 @@ export default function ShoppingCartModal() {
                           ICMS e Frete calculado no Checkout.
                         </p>
                         <div className="mt-6">
-                          <Form method="POST" action="/buy">
+                          <Form method="POST" action="/checkout">
                             <input
                               type="hidden"
                               name="cartData"

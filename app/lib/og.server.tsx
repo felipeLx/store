@@ -4,9 +4,9 @@ import type {SanityDocument} from '@sanity/client'
 import type {SatoriOptions} from 'satori'
 import satori from 'satori'
 
-import {OG_IMAGE_HEIGHT, OG_IMAGE_WIDTH} from '~/routes/_resources+/resource.og'
+import {OG_IMAGE_HEIGHT, OG_IMAGE_WIDTH} from '~/routes/resource.og'
 // import {projectDetails} from '~/sanity/projectDetails'
-import { urlFor } from './misc'
+import urlFor from '~/sanity/urlFor'
 
 // Load the font from the "public" directory
 const fontSans = (baseUrl: string) =>

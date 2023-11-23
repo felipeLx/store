@@ -5,12 +5,13 @@ import { Button } from "~/components/ui/button";
 import { useLove } from "~/lib/useCart";
 import { ProductCover } from "~/components/ProductCover";
 import { Title } from "~/components/Title";
-import { merchQuery, client } from "~/lib/sanity.server";
+import { RECORDS_QUERY } from "~/sanity/queries";
+import { client } from "~/sanity/client";
 import { type ProductDocument } from "~/types/product";
 
 export const loader = async ({params}: LoaderFunctionArgs) => {
     let sku = params.productId as string;
-    const products = await client.fetch(merchQuery);
+    const products = await client.fetch(RECORDS_QUERY);
     // eslint-disable @typescript-eslint
     const product = products.filter((product: ProductDocument) => product.sku === sku);
     
@@ -22,14 +23,13 @@ export default function ProductsIndex() {
     const product = data.product[0];
     let title = product.name;
     const addToCart = useLove((state) => state.addToCart);
-    const removeFromCart = useLove((state) => state.removeFromCart);
   
     return (
         <main>
             <h1 className="p-2 m-2">Artesanatos da Zizi</h1>
             <article className="flex flex-col items-start gap-4 lg:flex-row lg:gap-12">
                 <div className="grid-gap-4 mx-auto grid max-w-[70vw] grid-cols-1">
-                    <ProductCover image={product.image} name={product.name} />
+                    <ProductCover image={product.image} />
                 </div>
             </article>
             <aside className="flex flex-col items-start gap-4 lg:flex-row lg:gap-12">
@@ -49,7 +49,6 @@ export default function ProductsIndex() {
             {/* <CartSummary /> */}
                 <div className="relative mt-4 items-center justify-center text-center flex flex-row gap-4">
                     <Button size='sm' variant='outline' onClick={() => addToCart(product)}>Colocar no Carrinho</Button>
-                    <Button size='sm' variant='outline' onClick={() => removeFromCart(product)}>Tirar do Carrinho</Button>
                     <Link to="/">
                         <p>Voltar</p>
                     </Link>

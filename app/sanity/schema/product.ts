@@ -60,6 +60,7 @@ export const productType = defineType({
       options: {
         hotspot: true,
       },
+      fields: [defineField({name: 'alt', type: 'string'})],
     }),
     defineField({
       name: 'currency',

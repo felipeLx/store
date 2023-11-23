@@ -7,15 +7,15 @@ export const productZ = z.object({
     sku: z.string(),
     price: z.number(),
     image: z.any().nullable(),
-    likes: z.number(),
-    dislikes: z.number(),
+    likes: z.number().nullable(),
+    dislikes: z.number().nullable(),
     currency: z.string(),
     quantity: z.number(),
     stripeId: z.string(),
 })
 
 export type ProductDocument = z.infer<typeof productZ>
-
+export const productsZ = z.array(productZ)
 
 export const productStubZ = z.object({
     _id: z.string(),

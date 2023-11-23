@@ -2,7 +2,7 @@ import type {SanityClient, SanityDocument, Slug} from 'sanity'
 
 import {getSecret, SECRET_ID} from '~/sanity/structure/getSecret'
 
-export type SanityDocumentWithSlug = SanityDocument & {slug: Slug}
+export type SanityDocumentWithSlug = SanityDocument & {sku: Slug}
 
 export async function resolvePreviewUrl(
   doc: SanityDocumentWithSlug,
@@ -16,8 +16,8 @@ export async function resolvePreviewUrl(
   const previewUrl = new URL('/resource/preview', window.origin)
   previewUrl.searchParams.set('type', doc._type)
 
-  if (doc?.slug?.current) {
-    previewUrl.searchParams.set('slug', doc.slug.current)
+  if (doc?.sku?.current) {
+    previewUrl.searchParams.set('sku', doc.sku.current)
   }
 
   const secret = await getSecret(client, SECRET_ID, true)
