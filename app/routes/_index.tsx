@@ -24,37 +24,49 @@ export const meta: MetaFunction<
 }
 
 export const loader = async ({request}: LoaderFunctionArgs) => {
-  const initial = await loadQuery<ProductDocument[]>(PRODUCTS_QUERY).then((res) => {
-    return {
+  let initial = await loadQuery<ProductDocument[]>(PRODUCTS_QUERY).then((res) => ({
     ...res,
-    data: res.data ? productsZ.parse(res.data) : null
-    }}
-  )
+    data: res.data ? productsZ.parse(res.data.map((product) => ({
+      ...product,
+      stripeProductId: product.stripeProductId.replace(/[^\w\s]/gi, '').slice(0, 40),
+      sku: product.sku!.slice(0, 14),
+      name: product.name.slice(0, 14),
+      description: product.description.slice(0, 30)
+    }))) : null,
+  }))
 
   if (!initial.data) {
     throw new Response('Not found', {status: 404})
   }
-  console.log('initial', initial.data)
 
-  const data = JSON.stringify(initial.data.map((product) => {
+    return json({
+      initial,
+      query: PRODUCTS_QUERY,
+      params: {},
+    })
+}
+/*
+const data = JSON.stringify(initial.data.map((product) => {
     return {
-      ...product,
-      stripeProductId: product.stripeProductId.replace(/[^\w\s]/gi, '').slice(0, 30),
+      products: {
+      stripeProductId: product.stripeProductId.replace(/[^\w\s]/gi, '').slice(0, 40),
       sku: product.sku!.slice(0, 14),
-      name: product.name,
+      name: product.name.slice(0, 14),
+      description: product.description.slice(0, 30)
+      }
     }
   }))
   console.log('data', data)
-  return json({data})
-}
-
+*/
 export default function Index() {
-  const data = useLoaderData<typeof loader>()
-  // const {products, loading} = useQuery<typeof data>(query, params, data)
+  const {initial, query, params} = useLoaderData<typeof loader>()
+  const {data, loading} = useQuery<typeof initial.data>(query, params, {
+    initial,
+  })
 
-  // if (loading || !data) {
-    // return <div>Carregando...</div>
- // }
+  if (loading || !data) {
+    return <div>Loading...</div>
+  }
 
   return (
     <div className="grid grid-cols-1 gap-6 lg:gap-12">
