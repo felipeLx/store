@@ -5,13 +5,13 @@ import { Button } from "~/components/ui/button";
 import { useLove } from "~/lib/useCart";
 import { ProductCover } from "~/components/ProductCover";
 import { Title } from "~/components/Title";
-import { RECORDS_QUERY } from "~/sanity/queries";
+import { PRODUCTS_QUERY } from "~/sanity/queries";
 import { client } from "~/sanity/client";
 import { type ProductDocument } from "~/types/product";
 
 export const loader = async ({params}: LoaderFunctionArgs) => {
     let sku = params.productId as string;
-    const products = await client.fetch(RECORDS_QUERY);
+    const products = await client.fetch(PRODUCTS_QUERY);
     // eslint-disable @typescript-eslint
     const product = products.filter((product: ProductDocument) => product.sku === sku);
     

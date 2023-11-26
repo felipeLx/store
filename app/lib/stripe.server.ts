@@ -1,7 +1,7 @@
-import { json } from "@remix-run/node";
+// import { json } from "@remix-run/node";
 import { loadStripe } from "@stripe/stripe-js";
 import Stripe from "stripe";
-import { type ProductDocument } from "~/types/product";
+import { type ProductStub } from "~/types/product";
 import { getEnv } from "./env.server";
 
 let _stripe: any;
@@ -14,25 +14,98 @@ export async function getStripe() {
   return _stripe;
 }
 
-const calculateOrderAmount = (items: any) => {
-  console.log('items calculateOrderAmount', json(items)) 
-  // Replace this constant with a calculation of the order's amount
-  // Calculate the order total on the server to prevent
-  // people from directly manipulating the amount on the client
-  return 1400;
+
+export const getStripeSession = async (
+  items: string,
+  domainUrl: string
+): Promise<string> => {
+  let stripeApiKey = getEnv().STRIPE_API_KEY
+  const stripe = new Stripe(stripeApiKey, {
+    // @ts-ignore
+    apiVersion: '2023-10-16',
+    typescript: true,
+  });
+
+  const dataObj = JSON.parse(items);
+
+  const lineItems = dataObj.map((product: ProductStub) => {
+    return {
+      price: product.stripeProductId,
+      quantity: product.quantity,
+      adjustable_quantity: {
+        enabled: true,
+        minimum: 1,
+        maximum: 5,
+      },
+    };
+  });
+
+  const session = await stripe.checkout.sessions.create({
+    mode: "payment",
+    payment_method_types: ["card"], // , "giropay", "pix"
+    line_items: lineItems,
+    shipping_address_collection: {
+      allowed_countries: ["BR"],
+    },
+    custom_text: {
+      shipping_address: {
+        message: 'Por favor notar que precisamos da confirmação do endereço para o envio pelos Correios.',
+      },
+      submit: {
+        message: 'Enviaremos informações por email.',
+      },
+    },
+    success_url: `${domainUrl}/payment/success`,
+    cancel_url: `${domainUrl}/payment/cancelled`,
+  });
+
+  return session.url as string;
 };
 
-export async function stripeHandler(items: ProductDocument) {
-  console.log('items stripeHandler', json(items))
+/*
+const getProductPrice = async(id: string) => {
+  let apiKey = getEnv().STRIPE_API_KEY;
+  const stripe = new Stripe(apiKey, {
+    apiVersion: '2023-10-16',
+    typescript: true,
+  });
+
+  const price = await stripe.prices.retrieve(id);
+  return price.unit_amount;
+}
+
+const calculateOrderAmount = async(items: any) => {
+   // @ts-ignore
+   const itemsObj = JSON.parse(items);
+   const cleanedItems = Object.fromEntries(
+     Object.entries(itemsObj).map(([key, value]) => [key.trim(), typeof value === 'string' ? value.trim() : value])
+   );
+ 
+   const itemsArray = Object.entries(cleanedItems);
+   const amount = await itemsArray.reduce(async (totalPromise, [stripeProductId, quantity]) => {
+     const total = await totalPromise;
+     const price = await getProductPrice(stripeProductId.trim()) as number;
+     return total + price * quantity;
+   }, Promise.resolve(0));
+ 
+   console.log('amount', amount);
+   return amount;
+};
+
+export async function stripeHandler(items: ProductStub) {
+  console.log('items.cartData stripeHandler', items.cartData)
+  
   let apiKey = getEnv().STRIPE_API_KEY
   const stripe = new Stripe(apiKey, {
     // @ts-ignore
     apiVersion: '2023-10-16',
     typescript: true,
   });
+
+  let totalAmount = await calculateOrderAmount(items)
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: calculateOrderAmount(items),
+    amount: Number(totalAmount.valueOf()),
     currency: "brl",
     // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
     automatic_payment_methods: {
@@ -41,7 +114,7 @@ export async function stripeHandler(items: ProductDocument) {
   });
   return {clientSecret: paymentIntent.client_secret}
 }
-
+*/
 export async function redirectToStripeCheckout(
   sessionId: string
 ) {
@@ -93,39 +166,3 @@ export function getDomainUrl(request: Request) {
 
   return `${protocol}://${host}`;
 }
-
-export const getStripeSession = async (
-  items: string,
-  domainUrl: string
-): Promise<string> => {
-  let stripeApiKey = getEnv().STRIPE_API_KEY
-  const stripe = new Stripe(stripeApiKey, {
-    // @ts-ignore
-    apiVersion: '2023-10-16',
-    typescript: true,
-  });
-
-  const dataObj = JSON.parse(items);
-
-  const lineItems = dataObj.map((product: ProductDocument) => {
-    return {
-      price: product.stripeId,
-      quantity: product.quantity,
-      adjustable_quantity: {
-        enabled: true,
-        minimum: 1,
-        maximum: 5,
-      },
-    };
-  });
-
-  const session = await stripe.checkout.sessions.create({
-    mode: "payment",
-    payment_method_types: ["card", "pix"], // , "giropay", "pix"
-    line_items: lineItems,
-    success_url: `${domainUrl}/payment/success`,
-    cancel_url: `${domainUrl}/payment/cancelled`,
-  });
-
-  return session.url as string;
-};

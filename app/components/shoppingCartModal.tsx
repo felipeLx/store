@@ -3,9 +3,11 @@ import { Form, Link } from "@remix-run/react";
 import React, { Fragment } from "react";
 import urlFor from "~/sanity/urlFor";
 import { useLove } from "~/lib/useCart";
+import { formatCurrencyString } from "use-shopping-cart";
 
 export default function ShoppingCartModal() {
   const data = useLove((state) => state.cart);
+  console.log('data CartModal', data)
   const cartState = useLove((state) => state.showCart);
   const toggleShowCart = useLove((state) => state.toggleCart);
   const removeItem = useLove((state) => state.removeFromCart);
@@ -111,7 +113,11 @@ export default function ShoppingCartModal() {
                                         <div className="flex justify-between text-base font-medium text-zinc-100">
                                           <h3>{product.name}</h3>
                                           <p className="ml-4">
-                                            $ {product.price}
+                                          {formatCurrencyString({
+                                            currency: "BRL",
+                                            value: product.price,
+                                            language: "pt-BR",
+                                          }).replace('.',',')}
                                           </p>
                                         </div>
                                       </div>
@@ -141,14 +147,19 @@ export default function ShoppingCartModal() {
                     {data.length < 1 ? null : (
                       <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
                         <div className="flex justify-between text-base font-medium text-zinc-100">
-                          <p>Subtotal</p>
-                          <p>${total}</p>
+                          <p>Valor</p>
+                          <p>{formatCurrencyString({
+                            currency: "BRL",
+                            value: total,
+                            language: "pt-BR",
+                          }).replace('.',',')}
+                          </p>
                         </div>
                         <p className="mt-0.5 text-sm text-gray-400">
                           ICMS e Frete calculado no Checkout.
                         </p>
                         <div className="mt-6">
-                          <Form method="POST" action="/checkout">
+                          <Form method="POST" action="/buy">
                             <input
                               type="hidden"
                               name="cartData"

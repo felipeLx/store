@@ -24,6 +24,7 @@ export const useLove = create<State & Actions>((set, get) => ({
       const cartItem = cart.find((item) => item.sku === product.sku)
 
       if (cartItem) {
+        console.log('cartItem Exisct to update', cartItem)
         const updateCart = cart.map((item)=> item.sku === product.sku ? {...item, quantity: item.quantity + 1} : item)     
     set((state) => ({cart: updateCart,
     totalItems: state.totalItems + 1,

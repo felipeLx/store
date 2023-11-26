@@ -4,7 +4,7 @@ import type {DefaultDocumentNodeResolver, StructureResolver} from 'sanity/desk'
 import OGPreview from '~/sanity/components/OGPreview'
 
 import {resolveOGUrl} from './resolveOGUrl'
-import { SanityDocument } from '@sanity/client'
+import { type SanityDocument } from '@sanity/client'
 
 export const structure: StructureResolver = (S) =>
   S.list()

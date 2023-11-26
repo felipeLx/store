@@ -43,7 +43,7 @@ export const Header = () => {
                       />
                     </svg>
                     <span className="ml-2 text-sm font-medium  text-gray-900 bg-purple-200 px-3 py-1 rounded-full border border-cyan-300">
-                      {totalItems}
+                    {totalItems}
                     </span>
                   </button>
                 </div>

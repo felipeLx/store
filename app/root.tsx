@@ -17,10 +17,11 @@ import {themePreferenceCookie} from '~/cookies'
 import {getBodyClassNames} from '~/lib/getBodyClassNames'
 import {useQuery} from '~/sanity/loader'
 import {loadQuery} from '~/sanity/loader.server'
-import {HOME_QUERY} from '~/sanity/queries'
+import {HOME_QUERY, PRODUCTS_QUERY} from '~/sanity/queries'
 import styles from '~/tailwind.css'
 import type {HomeDocument} from '~/types/home'
 import {homeZ} from '~/types/home'
+import { type ProductStub, productStubsZ } from './types/product'
 
 const VisualEditing = lazy(() => import('~/components/VisualEditing'))
 
@@ -64,8 +65,14 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
     ...res,
     data: res.data ? homeZ.parse(res.data) : null,
   }))
+
+  const products = await loadQuery<ProductStub[]>(PRODUCTS_QUERY).then((res) => ({
+    ...res,
+    data: res.data ? productStubsZ.parse(res.data) : null,
+    }))
   
   return json({
+    products,
     initial,
     query: HOME_QUERY,
     params: {},

@@ -13,7 +13,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
     return new Response('Bad request', {status: 400})
   }
 
-  const doc = await previewClient.fetch(`*[_id == $id][0]{ ..., product-> }`, {
+  const doc = await previewClient.fetch(`*[_id == $id][0]{ ...}`, {
     id,
   })
 

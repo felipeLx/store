@@ -1,5 +1,5 @@
 import {ShoppingBag} from 'lucide-react'
-import {defineField, defineType} from 'sanity'
+import {defineField, defineType} from 'sanity' // defineField, 
 
 
 export const productType = defineType({
@@ -32,11 +32,23 @@ export const productType = defineType({
       name: 'name',
       title: 'Name',
       type: 'string',
+      // @ts-ignore
+      validation: Rule => Rule.custom<string>((name) => {
+        if (typeof name === 'string') {
+          return name.replace(/^[a-zA-Z0-9]/, '').trim(); // remove 'zero-width space' characters
+        }
+      }).max(30).warning('This field is required'),
     }),
     defineField({
-      name: 'stripeId',
+      name: 'stripeProductId',
       title: 'Stripe ID',
       type: 'string',
+      // @ts-ignore
+      validation: Rule => Rule.custom<string>((name) => {
+        if (typeof name === 'string') {
+          return name.replace(/^[a-zA-Z0-9]/, '').trim(); // remove 'zero-width space' characters
+        }
+      }).max(30).warning('This field is required'),
     }),
     defineField({
       name: 'description',
@@ -46,7 +58,10 @@ export const productType = defineType({
     defineField({
       name: 'sku',
       title: 'SKU',
-      type: 'string',
+      type: 'slug',
+      options: {
+        source: "name",
+      }
     }),
     defineField({
       name: 'price',
@@ -55,11 +70,8 @@ export const productType = defineType({
     }),
     defineField({
       name: 'image',
-      title: 'Image',
       type: 'image',
-      options: {
-        hotspot: true,
-      },
+      options: {hotspot: true},
       fields: [defineField({name: 'alt', type: 'string'})],
     }),
     defineField({
@@ -77,16 +89,16 @@ export const productType = defineType({
     select: {
       name: 'name',
       description: 'description',
-      stripeId: 'stripeId',
+      stripeProductId: 'stripeProductId',
       price: 'price',
       quantity: 'quantity',
       media: 'image',
     },
-    prepare({name, description, stripeId, price, quantity, media}) {
+    prepare({name, description, stripeProductId, price, quantity, media}) {
       return {
         name,
-        subtitle: description,
-        stripeId,
+        description,
+        stripeProductId,
         price,
         quantity,
         media,

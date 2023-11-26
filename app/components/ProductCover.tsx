@@ -23,12 +23,12 @@ export function ProductCover(props: ProductCoverProps) {
             .fit('max')
             .auto('format')
             .url()}
-          alt={image?.alt ?? ``}
+          alt='Produtos | Artesanatos da Zizi'
           loading="lazy"
         />
       ) : (
         <div className="flex aspect-square w-full items-center justify-center bg-gray-100 text-gray-500">
-          Missing Product art
+          Faltando produtos | Artesanatos da Zizi
         </div>
       )}
     </div>

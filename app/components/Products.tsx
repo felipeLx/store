@@ -13,14 +13,25 @@ type ProductsProps = {
 export function Products(props: ProductsProps) {
   const addToCart = useLove((state) => state.addToCart);
   const {products = []} = props
+  
+  if(!products) {
+    return(
+      <>
+        <div className="grid grid-cols-2">
+          <p>Carregando...</p>
+        </div>
+      </>
+    )  
+  }
   return (
     <>
       <ul className="grid grid-cols-2 gap-6 md:grid-cols-3 md:gap-12 lg:grid-cols-3">
-        {products.map(product => 
-        <li key={product.sku} className="group relative flex flex-col">
+        {props.products.map(product => 
+        <li key={product._id} className="group relative flex flex-col">
           <div className="relative overflow-hidden transition-all duration-200 ease-in-out group-hover:scale-105 group-hover:opacity-90">
             <div className="absolute z-0 h-36 w-[100%] translate-x-20 translate-y-20 -rotate-45 bg-gradient-to-b from-white to-transparent opacity-25 mix-blend-overlay transition-transform duration-500 ease-in-out group-hover:translate-x-10 group-hover:translate-y-10 group-hover:opacity-75" />
-            <ProductCover image={product.image} />
+            {product.image ? <ProductCover image={product.image} /> : 
+            <p>Produto sem imagem</p>}
           </div>
           <div className="flex flex-col text-center">
             <Link

@@ -13,9 +13,9 @@ export function Layout({home, children}: PropsWithChildren<LogoProps>) {
       <div className="container mx-auto p-4 lg:p-12 grid grid-cols-1 gap-4 lg:gap-12">
         {home?.title ? <Title data={home} /> : null}
         {children}
+        <ShoppingCartModal />
       </div>
       <Footer home={home} />
-      <ShoppingCartModal />
     </>
   )
 }
