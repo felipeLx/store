@@ -1,32 +1,33 @@
-import {Logo} from '~/components/Logo'
+import { Link } from '@remix-run/react'
+// import {Logo} from '~/components/Logo'
 import type {LogoProps} from '~/types/home'
+import { Facebook, Instagram } from 'lucide-react';
 
 export function Footer(props: LogoProps) {
   return (
-    <header className="border-t border-gray-100 transition-colors duration-1000 ease-in-out dark:border-gray-900">
-      <div className="container mx-auto flex items-center justify-between p-4 lg:px-12">
-        <Logo home={props.home} />
+    <footer className="min-h-[200px] bg-black w-full block">
+      <div className="container mx-auto flex items-center justify-between px-4 lg:px-12">
+        <div className="flex mt-2 max-w-sm text-right flex-row items-start justify-start gap-2 text-sm lg:flex-row lg:items-center lg:gap-5">
+          <ul className='flex flex-row align-baseline text-inherit gap-2'>
+          <li className="text-white mr-4 text-sm">
+              <Link to="about">Home</Link></li>
+            <li className="text-white mr-4 text-sm">
+              <Link to="about">Quem Somos</Link></li>
+            <li className="text-white mr-4 text-sm"><Link to="privacy">Política de Privacidade</Link></li>
+            <li className="text-white mr-4 text-sm"><Link to="tos">Termo de Serviço</Link></li>
+          </ul>
+        </div>
         <div className="flex max-w-sm text-right flex-1 flex-col items-end justify-end gap-2 text-sm lg:flex-row lg:items-center lg:gap-5">
-          <a
-            className="hover:text-cyan-600 dark:hover:text-cyan-200"
-            href="/studio"
-          >
-            Log in to Sanity Studio v3
-          </a>
-          <a
-            className="hover:text-cyan-600 dark:hover:text-cyan-200"
-            href="https://sanity.io"
-          >
-            Sign up free at Sanity.io
-          </a>
-          <a
-            className="hover:text-cyan-600 dark:hover:text-cyan-200"
-            href="https://github.com/SimeonGriggs/remix-sanity-studio-v3"
-          >
-            Clone this project on GitHub
-          </a>
+          <ul className='flex flex-row align-baseline text-inherit gap-2'>
+            <li className="text-white mr-4 text-sm">
+              <a target='_blank' rel='noreferrer' href='https://www.facebook.com/artesanatosdazizies'><Facebook /></a></li>
+            <li className="text-white mr-4 text-sm"><a target='_blank' rel='noreferrer' href='https://www.instagram.com/artesanatosdazizi/'><Instagram /></a></li>
+          </ul>
         </div>
       </div>
-    </header>
+      <div className="flex flex-row gap-2 justify-end items-baseline p-2">
+        <p className='text-white font-light'> {new Date().getFullYear()} @ArtesanatosdaZizi</p>
+      </div>
+    </footer>
   )
 }
