@@ -9,6 +9,7 @@ module.exports = {
       route("about", "routes/marketing/about.tsx");
       route("privacy", "routes/marketing/privacy.tsx");
       route("tos", "routes/marketing/tos.tsx");
+      route("buy", "routes/checkout/buy.tsx");
     })
   }
 }

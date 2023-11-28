@@ -11,8 +11,7 @@ interface State {
 interface Actions {
     addToCart: (Item: ProductDocument) => void;
     removeFromCart: (Item: ProductDocument) => void;
-    toggleCart: () => void;
-}
+    toggleCart: () => void;}
 
 export const useLove = create<State & Actions>((set, get) => ({
     cart: [],
@@ -24,7 +23,6 @@ export const useLove = create<State & Actions>((set, get) => ({
       const cartItem = cart.find((item) => item.sku === product.sku)
 
       if (cartItem) {
-        console.log('cartItem Exisct to update', cartItem)
         const updateCart = cart.map((item)=> item.sku === product.sku ? {...item, quantity: item.quantity + 1} : item)     
     set((state) => ({cart: updateCart,
     totalItems: state.totalItems + 1,
@@ -47,11 +45,9 @@ export const useLove = create<State & Actions>((set, get) => ({
             totalPrice: state.totalPrice - product.price,
             }))
     },
-
     toggleCart: () => 
         set((state) => ({
                 showCart: !state.showCart,
-            })
-        ),
-                
-}));
+            })),          
+    })
+);

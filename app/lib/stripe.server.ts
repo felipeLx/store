@@ -42,7 +42,7 @@ export const getStripeSession = async (
 
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
-    payment_method_types: ["card"], // , "giropay", "pix"
+    payment_method_types: ["card", "pix"], // , "giropay", "pix"
     line_items: lineItems,
     shipping_address_collection: {
       allowed_countries: ["BR"],
@@ -57,6 +57,7 @@ export const getStripeSession = async (
     },
     success_url: `${domainUrl}/payment/success`,
     cancel_url: `${domainUrl}/payment/cancelled`,
+    automatic_tax: { enabled: true },
   });
 
   return session.url as string;

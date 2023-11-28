@@ -7,7 +7,6 @@ import { formatCurrencyString } from "use-shopping-cart";
 
 export default function ShoppingCartModal() {
   const data = useLove((state) => state.cart);
-  console.log('data CartModal', data)
   const cartState = useLove((state) => state.showCart);
   const toggleShowCart = useLove((state) => state.toggleCart);
   const removeItem = useLove((state) => state.removeFromCart);

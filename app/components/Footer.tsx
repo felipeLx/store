@@ -10,7 +10,7 @@ export function Footer(props: LogoProps) {
         <div className="flex mt-2 max-w-sm text-right flex-row items-start justify-start gap-2 text-sm lg:flex-row lg:items-center lg:gap-5">
           <ul className='flex flex-row align-baseline text-inherit gap-2'>
           <li className="text-white mr-4 text-sm">
-              <Link to="about">Home</Link></li>
+              <Link to="/">Home</Link></li>
             <li className="text-white mr-4 text-sm">
               <Link to="about">Quem Somos</Link></li>
             <li className="text-white mr-4 text-sm"><Link to="privacy">Política de Privacidade</Link></li>
