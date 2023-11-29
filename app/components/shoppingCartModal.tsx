@@ -12,7 +12,7 @@ export default function ShoppingCartModal() {
   const removeItem = useLove((state) => state.removeFromCart);
   const total = useLove((state) => state.totalPrice);
 
-  console.log('data', data)
+  
   return (
     <Transition.Root show={cartState} as={Fragment}>
       <Dialog className="relative z-1000" as="div" onClose={toggleShowCart}>

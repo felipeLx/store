@@ -13,7 +13,7 @@ type ProductsProps = {
 export function Products(props: ProductsProps) {
   const addToCart = useLove((state) => state.addToCart);
   const {products = []} = props
-  console.log('products', products)
+  
   if(!products) {
     return(
       <>
