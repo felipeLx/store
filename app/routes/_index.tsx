@@ -28,22 +28,22 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
     ...res,
     data: res.data ? productsZ.parse(res.data.map((product) => ({
       ...product,
-      stripeProductId: product.stripeProductId.replace(/[^\w\s]/gi, '').slice(0, 40),
+      stripeProductId: product.stripeProductId.slice(0, 30),
       sku: product.sku!.slice(0, 14),
       name: product.name.slice(0, 14),
-      description: product.description.slice(0, 30)
+      description: product.description.slice(0, 40),
     }))) : null,
   }))
 
   if (!initial.data) {
     throw new Response('Not found', {status: 404})
   }
-
-    return json({
-      initial,
-      query: PRODUCTS_QUERY,
-      params: {},
-    })
+  console.log('initial.data', initial.data)
+  return json({
+    initial,
+    query: PRODUCTS_QUERY,
+    params: {},
+  })
 }
 /*
 const data = JSON.stringify(initial.data.map((product) => {
@@ -65,7 +65,7 @@ export default function Index() {
   })
 
   if (loading || !data) {
-    return <div>Loading...</div>
+    return <div>Carregando...</div>
   }
 
   return (

@@ -11,7 +11,8 @@ interface State {
 interface Actions {
     addToCart: (Item: ProductDocument) => void;
     removeFromCart: (Item: ProductDocument) => void;
-    toggleCart: () => void;}
+    toggleCart: () => void;
+}
 
 export const useLove = create<State & Actions>((set, get) => ({
     cart: [],
