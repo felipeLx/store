@@ -28,7 +28,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
     ...res,
     data: res.data ? productsZ.parse(res.data.map((product) => ({
       ...product,
-      stripeProductId: product.stripeProductId.slice(0, 30),
+      stripeProductId: product.stripeProductId.replace(/[^\w\s]/gi, '').slice(0, 30),
       sku: product.sku!.slice(0, 14),
       name: product.name.slice(0, 14),
       description: product.description.slice(0, 40),
