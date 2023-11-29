@@ -57,7 +57,7 @@ export const getStripeSession = async (
     },
     success_url: `${domainUrl}/payment/success`,
     cancel_url: `${domainUrl}/payment/cancelled`,
-    automatic_tax: { enabled: true },
+    // automatic_tax: { enabled: true },
   });
 
   return session.url as string;

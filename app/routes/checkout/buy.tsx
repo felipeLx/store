@@ -8,7 +8,6 @@ export async function action({ request }: ActionFunctionArgs) {
 
   const formData = await request.formData();
   const values = Object.fromEntries(formData);
-  console.log("values", values);
   const items = values.cartData as string;
 
   const stripeRedirectUrl = await getStripeSession(
