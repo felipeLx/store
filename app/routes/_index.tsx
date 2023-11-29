@@ -26,7 +26,7 @@ export const meta: MetaFunction<
 export const loader = async ({request}: LoaderFunctionArgs) => {
   let initial = await loadQuery<ProductDocument[]>(PRODUCTS_QUERY).then((res) => ({
     ...res,
-    data: res.data ? productsZ.parse(JSON.stringify(res.data.map((product) => ({
+    data: res.data ? productsZ.parse(JSON.parse(res.data.map((product) => ({
       ...product,
       stripeProductId: product.stripeProductId.slice(0, 30),
       sku: product.sku!.slice(0, 14),
