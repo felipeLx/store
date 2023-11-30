@@ -57,7 +57,7 @@ export const getStripeSession = async (
         message: 'Enviaremos informações por email.',
       },
     },
-    return_url: `${domainUrl}/checkout/return?session_id=${SESSION_ID}`
+    return_url: `https://artesanatosdazizi.com.br/checkout/${SESSION_ID}`
     // success_url: `${domainUrl}/payment/success`,
     // cancel_url: `${domainUrl}/payment/cancelled`,
     // automatic_tax: { enabled: true },
