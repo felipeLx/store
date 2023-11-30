@@ -3,7 +3,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import Stripe from "stripe";
 import { type ProductStub } from "~/types/product";
 import { getEnv } from "./env.server";
-import { SESSION_ID } from "sanity";
+//import { SESSION_ID } from "sanity";
 
 let _stripe: any;
 
@@ -57,7 +57,7 @@ export const getStripeSession = async (
         message: 'Enviaremos informações por email.',
       },
     },
-    return_url: `https://artesanatosdazizi.com.br/checkout/${SESSION_ID}`
+    return_url: `https://artesanatosdazizi.com.br/checkout`
     // success_url: `${domainUrl}/payment/success`,
     // cancel_url: `${domainUrl}/payment/cancelled`,
     // automatic_tax: { enabled: true },
