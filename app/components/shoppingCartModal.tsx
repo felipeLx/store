@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Form, Link } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import React, { Fragment } from "react";
 import urlFor from "~/sanity/urlFor";
 import { useLove } from "~/lib/useCart";
@@ -160,19 +160,14 @@ export default function ShoppingCartModal() {
                           ICMS e Frete calculado no Checkout.
                         </p>
                         <div className="mt-6">
-                          <Form method="POST" action="/buy">
-                            <input
-                              type="hidden"
-                              name="cartData"
-                              value={JSON.stringify(data)}
-                            />
+                          <Link to='checkout' state={{products: JSON.stringify(data)}}>
                             <button
-                              type="submit"
+                              type="button"
                               className="flex w-full items-center justify-center rounded-md border border-transparet bg-purple-300 px-4 py-3 text-base font-medium text-gray-900 hover:bg-purple-700"
                             >
                               Checkout
                             </button>
-                          </Form>
+                          </Link>
                         </div>
                       </div>
                     )}

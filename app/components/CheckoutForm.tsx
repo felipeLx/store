@@ -79,7 +79,7 @@ export default function CheckoutForm() {
   const paymentElementOptions = {
     layout: "tabs" as StripePaymentElementOptions['layout'],
   };
-
+  // <Form method="POST" action="/buy">
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
 

@@ -3,6 +3,7 @@ import {getStripe} from '~/lib/stripe.server'
 
 export default function Cart({children}: {children: React.ReactElement}) {
     const stripePromise = getStripe()
+    // console.log('stripePromise', stripePromise)
     
     return (
         <CartProvider

@@ -6,23 +6,42 @@ import { useLove } from "~/lib/useCart";
 import { ProductCover } from "~/components/ProductCover";
 import { Title } from "~/components/Title";
 import { PRODUCTS_QUERY } from "~/sanity/queries";
-import { client } from "~/sanity/client";
-import { type ProductDocument } from "~/types/product";
+
+import { productsZ, type ProductDocument } from "~/types/product";
+import { loadQuery } from "~/sanity/loader.server";
 
 export const loader = async ({params}: LoaderFunctionArgs) => {
-    let sku = params.productId as string;
-    const products = await client.fetch(PRODUCTS_QUERY);
-    // eslint-disable @typescript-eslint
-    const product = products.filter((product: ProductDocument) => product.sku === sku);
-    
-    return {product};
+    let sku: any = params.productId;
+    console.log('sku', sku)
+    const product = await loadQuery<ProductDocument[]>(PRODUCTS_QUERY).then((res) => ({
+        ...res,
+        data: res.data ? productsZ.parse(res.data.filter(e => e.sku?.slice(0, 14) === sku).map((product) => ({
+          ...product,
+          stripeProductId: product.stripeProductId.replace(/[^\w\s]/gi, '').slice(0, 30),
+          sku: product.sku!.slice(0, 14),
+          name: product.name.slice(0, 14),
+          description: product.description.slice(0, 40),
+        }))) : null,
+      }))
+      
+    console.log('prod', product)
+    return {product}
 }
 
 export default function ProductsIndex() {
     const data = useLoaderData<typeof loader>();
-    const product = data.product[0];
-    let title = product.name;
+    const product = data.product?.data[0];
+    let title = product?.name;
     const addToCart = useLove((state) => state.addToCart);
+
+    if(!product) {
+        return (
+            <div>
+                <h1>Produto não encontrado</h1>
+                <Link to="/">Voltar</Link>
+            </div>
+        )
+    }
   
     return (
         <main>

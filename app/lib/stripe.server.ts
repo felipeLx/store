@@ -42,6 +42,7 @@ export const getStripeSession = async (
 
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
+    ui_mode: 'embedded',
     payment_method_types: ["card", "boleto"], // , "giropay", "pix", , "boleto", "pix"
     line_items: lineItems,
     shipping_address_collection: {
@@ -59,8 +60,9 @@ export const getStripeSession = async (
     cancel_url: `${domainUrl}/payment/cancelled`,
     // automatic_tax: { enabled: true },
   });
-
-  return session.url as string;
+  
+  return session.client_secret || '';
+  //return session.url as string;
 };
 
 /*

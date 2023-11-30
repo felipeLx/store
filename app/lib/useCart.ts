@@ -41,7 +41,7 @@ export const useLove = create<State & Actions>((set, get) => ({
     },
     removeFromCart: (product: ProductDocument) => {
         set((state) => ({
-            cart: state.cart.filter((item) => item.sku !== product.sku),
+            cart: state.cart.filter((item) => item.sku?.slice(0,30) !== product.sku?.slice(0,30)),
             totalItems: state.totalItems - 1,
             totalPrice: state.totalPrice - product.price,
             }))
