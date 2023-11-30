@@ -3,6 +3,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import Stripe from "stripe";
 import { type ProductStub } from "~/types/product";
 import { getEnv } from "./env.server";
+// import { StringFieldProps } from "sanity";
 //import { SESSION_ID } from "sanity";
 
 let _stripe: any;
@@ -19,7 +20,7 @@ export async function getStripe() {
 export const getStripeSession = async (
   items: string,
   domainUrl: string
-): Promise<string> => {
+) => {
   let stripeApiKey = getEnv().STRIPE_API_KEY
   const stripe = new Stripe(stripeApiKey, {
     // @ts-ignore
@@ -51,7 +52,7 @@ export const getStripeSession = async (
     },
     custom_text: {
       shipping_address: {
-        message: 'Por favor notar que precisamos da confirmação do endereço para o envio pelos Correios.',
+        message: 'Por favor notar que precisamos das confirmação do endereço para o envio pelos Correios.',
       },
       submit: {
         message: 'Enviaremos informações por email.',
@@ -63,7 +64,7 @@ export const getStripeSession = async (
     // automatic_tax: { enabled: true },
   });
   
-  return session.return_url as string;
+  return {clientSecret: session.client_secret};
   //return session.url as string;
 };
 
