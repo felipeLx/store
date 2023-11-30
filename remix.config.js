@@ -10,6 +10,7 @@ module.exports = {
       route("privacy", "routes/marketing/privacy.tsx");
       route("tos", "routes/marketing/tos.tsx");
       route("buy", "routes/checkout/buy.tsx");
+      route("checkout", "routes/checkout/route.tsx");
     })
   }
 }
