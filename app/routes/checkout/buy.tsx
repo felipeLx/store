@@ -1,7 +1,13 @@
 import { type ActionFunctionArgs, json } from "@remix-run/node" // , redirect
 import { getDomainUrl, getStripe, getStripeSession } from "~/lib/stripe.server"
 import {EmbeddedCheckoutProvider,EmbeddedCheckout} from '@stripe/react-stripe-js';
-import { useActionData } from "@remix-run/react";
+import { useActionData, useLoaderData } from "@remix-run/react";
+
+export async function loader({ request }: ActionFunctionArgs) {
+  const stripePromise = await getStripe()
+  console.log('stripePromise', stripePromise)
+  return json({ stripePromise })
+}
 
 export async function action({ request }: ActionFunctionArgs) {
   if (request.method !== "POST") {
@@ -21,7 +27,8 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function Checkout() {
-  const stripePromise = getStripe()
+  const data = useLoaderData<typeof loader>()
+  console.log('data', data)
   const actionData = useActionData<typeof action>()
   console.log('actionData', actionData)
   //const options = {actionData.clientSecret};
@@ -30,7 +37,7 @@ export default function Checkout() {
     <div id="checkout">
       {actionData && (
         <EmbeddedCheckoutProvider
-          stripe={stripePromise}
+          stripe={data.stripePromise}
           options={actionData.clientSecret}
         >
           <EmbeddedCheckout />
