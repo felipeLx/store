@@ -95,13 +95,13 @@ export default function App() {
     initial,
   })
 
+    // <script src="https://js.stripe.com/v3/"></script>
   return (
     <html lang="pt">
       <head>
         <Meta />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <script src="https://js.stripe.com/v3/"></script>
         <link rel="icon" href="/favicon.ico" />
         <Links />
       </head>

@@ -1,13 +1,5 @@
-import { type ActionFunctionArgs, json } from "@remix-run/node" // , redirect
-import { getDomainUrl, getStripe, getStripeSession } from "~/lib/stripe.server"
-import {EmbeddedCheckoutProvider,EmbeddedCheckout} from '@stripe/react-stripe-js';
-import { useActionData, useLoaderData } from "@remix-run/react";
-
-export async function loader({ request }: ActionFunctionArgs) {
-  const stripePromise = await getStripe()
-  console.log('stripePromise', stripePromise)
-  return json({ stripePromise })
-}
+import { type ActionFunctionArgs, json, redirect } from "@remix-run/node";
+import { getDomainUrl, getStripeSession } from "~/lib/stripe.server";
 
 export async function action({ request }: ActionFunctionArgs) {
   if (request.method !== "POST") {
@@ -18,31 +10,10 @@ export async function action({ request }: ActionFunctionArgs) {
   const values = Object.fromEntries(formData);
   const items = values.cartData as string;
 
-  const stripeClientSecret: any = await getStripeSession(
+  const stripeRedirectUrl = await getStripeSession(
     items,
     getDomainUrl(request)
   );
-  console.log('stripeRedirectUrl', stripeClientSecret)
-  return json({clientSecret: stripeClientSecret.clientSecret});
-}
 
-export default function Checkout() {
-  const data = useLoaderData<typeof loader>()
-  console.log('data', data)
-  const actionData = useActionData<typeof action>()
-  console.log('actionData', actionData)
-  //const options = {actionData.clientSecret};
-
-  return (
-    <div id="checkout">
-      {actionData && (
-        <EmbeddedCheckoutProvider
-          stripe={data.stripePromise}
-          options={actionData.clientSecret}
-        >
-          <EmbeddedCheckout />
-        </EmbeddedCheckoutProvider>
-      )}
-    </div>
-  );
+  return redirect(stripeRedirectUrl);
 }

@@ -44,7 +44,6 @@ export const getStripeSession = async (
 
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
-    ui_mode: 'embedded',
     payment_method_types: ["card", "boleto"], // , "giropay", "pix", , "boleto", "pix"
     line_items: lineItems,
     shipping_address_collection: {
@@ -58,14 +57,14 @@ export const getStripeSession = async (
         message: 'Enviaremos informações por email.',
       },
     },
-    return_url: `https://artesanatosdazizi.com.br/checkout`
-    // success_url: `${domainUrl}/payment/success`,
-    // cancel_url: `${domainUrl}/payment/cancelled`,
+    // return_url: `https://artesanatosdazizi.com.br/checkout`
+    success_url: `${domainUrl}/payment/success`,
+    cancel_url: `${domainUrl}/payment/cancelled`,
     // automatic_tax: { enabled: true },
   });
   
-  return {clientSecret: session.client_secret};
-  //return session.url as string;
+  // return {clientSecret: session.client_secret};
+  return session.url as string;
 };
 
 /*
