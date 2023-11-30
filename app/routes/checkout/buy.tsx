@@ -14,6 +14,6 @@ export async function action({ request }: ActionFunctionArgs) {
     items,
     getDomainUrl(request)
   );
-
+  console.log('stripeRedirectUrl', stripeRedirectUrl)
   return redirect(stripeRedirectUrl);
 }

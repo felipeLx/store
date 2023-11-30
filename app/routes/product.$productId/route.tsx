@@ -24,13 +24,12 @@ export const loader = async ({params}: LoaderFunctionArgs) => {
         }))) : null,
       }))
       
-    console.log('prod', product)
     return {product}
 }
 
 export default function ProductsIndex() {
     const data = useLoaderData<typeof loader>();
-    const product = data.product?.data[0];
+    const product = data.product.data ? data.product.data[0] : null;
     let title = product?.name;
     const addToCart = useLove((state) => state.addToCart);
 

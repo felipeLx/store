@@ -3,6 +3,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import Stripe from "stripe";
 import { type ProductStub } from "~/types/product";
 import { getEnv } from "./env.server";
+import { SESSION_ID } from "sanity";
 
 let _stripe: any;
 
@@ -56,12 +57,13 @@ export const getStripeSession = async (
         message: 'Enviaremos informações por email.',
       },
     },
-    success_url: `${domainUrl}/payment/success`,
-    cancel_url: `${domainUrl}/payment/cancelled`,
+    return_url: `${domainUrl}/checkout/return?session_id=${SESSION_ID}`
+    // success_url: `${domainUrl}/payment/success`,
+    // cancel_url: `${domainUrl}/payment/cancelled`,
     // automatic_tax: { enabled: true },
   });
   
-  return session.client_secret || '';
+  return session.return_url as string;
   //return session.url as string;
 };
 
@@ -167,5 +169,5 @@ export function getDomainUrl(request: Request) {
 
   const protocol = host.includes("localhost") ? "http" : "https";
 
-  return `${protocol}://${host}`;
+  return `${protocol}://${host}/`;
 }
