@@ -105,7 +105,7 @@ export default function App() {
         <link rel="icon" href="/favicon.ico" />
         <Links />
       </head>
-      <body className="flex flex-col w-full m-0">
+      <body className="flex flex-col w-full">
         {isStudioRoute ? (
           <Outlet />
         ) : (
