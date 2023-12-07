@@ -13,7 +13,7 @@ const NavBar = () => {
       <header className="relative z-10 ">
         <div className="bg-gray-900 text-white">
           <div className="border-b border-gray-200">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto px-4 sm:px-6 lg:px-8">
               <div className="h-16 flex items-center justify-between">
                 <div className="flex items-center">
                   <Link to="/">

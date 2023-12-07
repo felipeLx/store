@@ -89,7 +89,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
 }
 
 export default function App() {
-  const {initial, query, params, bodyClassNames, isStudioRoute, ENV} =
+  const {initial, query, params, isStudioRoute, ENV} =
     useLoaderData<typeof loader>()
   const {data, loading} = useQuery<typeof initial.data>(query, params, {
     initial,
@@ -101,11 +101,11 @@ export default function App() {
       <head>
         <Meta />
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="viewport" content="initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
         <Links />
       </head>
-      <body className={bodyClassNames}>
+      <body className="flex flex-col w-full m-0">
         {isStudioRoute ? (
           <Outlet />
         ) : (
