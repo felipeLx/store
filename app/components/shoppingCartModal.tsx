@@ -46,7 +46,7 @@ export default function ShoppingCartModal() {
                       <div className="flex items-start justify-between pt-13">
                         <div className="flex flex-col items-start justify-between pt-13">
                           <Link to="/" className="w-full">
-                            <h1 className="text-3xl font-semibold">
+                            <h1 className="text-3xl pt-2 font-semibold">
                               Artesanatos da Zizi
                             </h1>
                           </Link>

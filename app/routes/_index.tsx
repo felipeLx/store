@@ -31,7 +31,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
       stripeProductId: product.stripeProductId.replace(/[^\w\s]/gi, '').slice(0, 30),
       sku: product.sku!.slice(0, 14),
       name: product.name.slice(0, 14),
-      description: product.description.slice(0, 40),
+      description: product.description.slice(0, 50),
     }))) : null,
   }))
 
@@ -45,19 +45,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
     params: {},
   })
 }
-/*
-const data = JSON.stringify(initial.data.map((product) => {
-    return {
-      products: {
-      stripeProductId: product.stripeProductId.replace(/[^\w\s]/gi, '').slice(0, 40),
-      sku: product.sku!.slice(0, 14),
-      name: product.name.slice(0, 14),
-      description: product.description.slice(0, 30)
-      }
-    }
-  }))
-  console.log('data', data)
-*/
+
 export default function Index() {
   const {initial, query, params} = useLoaderData<typeof loader>()
   const {data, loading} = useQuery<typeof initial.data>(query, params, {

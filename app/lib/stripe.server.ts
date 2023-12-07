@@ -35,9 +35,7 @@ export const getStripeSession = async (
       price: product.stripeProductId,
       quantity: product.quantity,
       adjustable_quantity: {
-        enabled: true,
-        minimum: 1,
-        maximum: 5,
+        enabled: false,
       },
     };
   });
@@ -46,9 +44,17 @@ export const getStripeSession = async (
     mode: "payment",
     payment_method_types: ["card", "boleto"], // , "giropay", "pix", , "boleto", "pix"
     line_items: lineItems,
+    tax_id_collection: {
+      enabled: true,
+    },
     shipping_address_collection: {
       allowed_countries: ["BR"],
     },
+    shipping_options: [
+      {
+        shipping_rate: "shr_1OKTcUHEys2Shpg8ZFfNGeC9",
+      },
+    ],
     custom_text: {
       shipping_address: {
         message: 'Por favor notar que precisamos das confirmação do endereço para o envio pelos Correios.',
@@ -78,7 +84,6 @@ const getProductPrice = async(id: string) => {
   const price = await stripe.prices.retrieve(id);
   return price.unit_amount;
 }
-
 const calculateOrderAmount = async(items: any) => {
    // @ts-ignore
    const itemsObj = JSON.parse(items);
@@ -98,7 +103,7 @@ const calculateOrderAmount = async(items: any) => {
 };
 
 export async function stripeHandler(items: ProductStub) {
-  console.log('items.cartData stripeHandler', items.cartData)
+  console.log('items.cartData stripeHandler', items)
   
   let apiKey = getEnv().STRIPE_API_KEY
   const stripe = new Stripe(apiKey, {
@@ -109,15 +114,15 @@ export async function stripeHandler(items: ProductStub) {
 
   let totalAmount = await calculateOrderAmount(items)
   // Create a PaymentIntent with the order amount and currency
-  const paymentIntent = await stripe.paymentIntents.create({
+  return await stripe.paymentIntents.create({
     amount: Number(totalAmount.valueOf()),
-    currency: "brl",
+    currency: "BRL",
     // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
     automatic_payment_methods: {
       enabled: true,
     },
   });
-  return {clientSecret: paymentIntent.client_secret}
+  //return {clientSecret: paymentIntent.client_secret}
 }
 */
 export async function redirectToStripeCheckout(
