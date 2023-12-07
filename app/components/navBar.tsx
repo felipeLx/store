@@ -9,7 +9,7 @@ const NavBar = () => {
   if (cartState) return null;
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50">
+    <div className="">
       <header className="relative z-10 ">
         <div className="bg-gray-900 text-white">
           <div className="border-b border-gray-200">
