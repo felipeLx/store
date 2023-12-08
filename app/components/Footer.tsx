@@ -17,7 +17,7 @@ export function Footer(props: LogoProps) {
             <li className="text-white mr-4 text-sm"><Link to="tos">Termo de Serviço</Link></li>
           </ul>
         </div>
-        <div className="flex max-w-sm text-right flex-1 flex-col items-end justify-end gap-2 text-sm lg:items-center lg:gap-5 ">
+        <div className="flex text-right flex-col items-end justify-end gap-2 text-sm lg:items-center lg:gap-5 ">
           <ul className='flex flex-row align-baseline text-inherit gap-2 lg:flex-row md:flex-col sm:flex-col'>
             <li className="text-white mr-4 text-sm">
               <a target='_blank' rel='noreferrer' href='https://www.facebook.com/artesanatosdazizies'><Facebook /></a></li>

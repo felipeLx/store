@@ -10,7 +10,7 @@ export function Layout({home, children}: PropsWithChildren<LogoProps>) {
   return (
     <>
       <Header />
-      <div className="flex flex-col w-fill m-0">
+      <div className="flex flex-col w-fill mb-2 pb-2">
         {home?.title ? <Title data={home} /> : null}
         {children}
         <ShoppingCartModal />
