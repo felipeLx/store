@@ -5,11 +5,18 @@ import React from 'react';
 
 export default function AboutRoute() {
 	return (
+		<>
 		<div className="container mx-auto px-4">
 			<h1 className="text-2xl font-bold mb-4">Quem são os artistas</h1>
-			<p className="mb-4">
-				Olá, me chamo Alzira, sou uma artesã do Espírito Santo e tenho 60 anos. Juntos com alguns artistas locais decidimos mostrar nossos trabalhos que costumamos levar para as feiras de artesanato da região. Espero que gostem do meu trabalho e dos outros artistas que estão aqui.
-			</p>
+			<div className="flex flex-col mb-4 overflow-visible">
+				<div className="flex justify-around p-2">
+					<img className="flex rounded-full mb-4 w-[250px]" src="/images/alzira.jpg" alt="Artistas" />
+					<p className="flex m-4 p-2">
+						Olá, me chamo Alzira, sou uma artesã do Espírito Santo e tenho 60 anos. Juntos com alguns artistas locais decidimos mostrar nossos trabalhos que costumamos levar para as feiras de artesanato da região. Espero que gostem do meu trabalho e dos outros artistas que estão aqui.
+					</p>
+				</div>
+				
+			</div>
 			<h2 className="text-xl font-bold mb-2">A Arte</h2>
 			<p className="mb-4">As Mandalas têm origem na Índia e significam “círculo” em sânscrito. As mandalas são usadas em contextos religiosos, artísticos, terapêuticos e educacionais, pois representam a conexão entre o material e o espiritual, a harmonia, a criatividade e o equilíbrio.
 
@@ -20,5 +27,38 @@ export default function AboutRoute() {
 			<h2 className="text-xl font-bold mb-2">Contato</h2>
 			<p className="mb-4">Entre em contato. </p> <a className="text-blue-500" href="mailto:zizi.artesanato.es@gmail.com">Me envie um email</a>
 		</div>
+		<div className="container mx-auto px-4">
+			<div className="flex flex-col mb-4 overflow-visible">
+				<div className="flex justify-around p-2">
+					<p className="flex m-4 p-2">
+					Olá, me chamo Ricardo, Artista Plástico profissional desde 1977. Com exposições coletivas, individuais, participações e salões de artes, projetos especiais e eventos ligados as artes plásticas e visuais. As duas linhas de trabalhos (Máscaras e esculturas) tem como base o mesmo material, matéria prima e processo produtivo, técnica e estilo. O que os diferencia são; tamanho das peças, uso/ aplicação.
+					</p>
+					<img className="flex rounded-full mb-4 max-w-[250px]" src="/images/ricardo.jpg" alt="Artistas" />
+				</div>
+				<h2 className="text-xl font-bold mb-2">A Arte</h2>
+				<p className="mb-4">Com estilo pessoal e original prevalece num grafismo do qual a cor serpenteia e pontilha com harmonia e liberdade. As texturas vão surgindo 
+				graciosamente, espontâneas, tão livres que buscam o céu repleto de luzes ofuscado pela intensificação do sol. 
+				O sol é sua vida e essencialmente preciso na beleza dessas composições que representam como fabulações o atraente folclore, vive os seus 
+				temas, convive com eles, pinta como simplesmente conta seus “causos”, compondo cenas de cor dele executadas com refinado senso de humor 
+				por identificação natural, pois pertence a forte linhagem nordestina. 
+				É um artista que procura captar com muita sensibilidade o que ainda existe de ingênuo e puro na alma do povo.
+				Sua pintura equilibrada, realisticamente documental revela invulgar dotes ao procurar nas cores uma maneira consciente e correta de expressar, de 
+				falar das dores, alegrias e sentimentos de nossa gente.</p>
+				<h2 className="text-xl font-bold mb-2">Contato</h2>
+				<p className="mb-4">Entre em contato. </p> <a className="text-blue-500" href="mailto:ricaru@gmail.com">Me envie um email</a>
+			</div>
+		</div>
+	</>
 	)
 }
+
+/*
+Com estilo pessoal e original prevalece num grafismo do qual a cor serpenteia e pontilha com harmonia e liberdade. As texturas vão surgindo 
+graciosamente, espontâneas, tão livres que buscam o céu repleto de luzes ofuscado pela intensificação do sol. 
+O sol é sua vida e essencialmente preciso na beleza dessas composições que representam como fabulações o atraente folclore, vive os seus 
+temas, convive com eles, pinta como simplesmente conta seus “causos”, compondo cenas de cor dele executadas com refinado senso de humor 
+por identificação natural, pois pertence a forte linhagem nordestina. 
+É um artista que procura captar com muita sensibilidade o que ainda existe de ingênuo e puro na alma do povo.
+Sua pintura equilibrada, realisticamente documental revela invulgar dotes ao procurar nas cores uma maneira consciente e correta de expressar, de 
+falar das dores, alegrias e sentimentos de nossa gente.
+*/
