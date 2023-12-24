@@ -50,6 +50,10 @@ export default function ShoppingCartModal() {
                               Artesanatos da Zizi
                             </h1>
                           </Link>
+                          <h6>
+                            <span className="text-gray-400">Artes prontas e únicas para venda</span>
+                          </h6>
+                          <p>Diferente de outros sites. no Artesanatos da Zizi você encontra produtos prontos, realizados para exposição e feiras, e agora disponíveis para a venda. Produto único, não há reprodução.</p>
                           <Dialog.Title className="text-xl font-medium text-zinc-100">
                             Carrinho
                           </Dialog.Title>
